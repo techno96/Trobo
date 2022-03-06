@@ -21,6 +21,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
+
   const addComment = (text, parentId) => {
     createCommentApi(text, parentId).then((comment) => {
       setBackendComments([comment, ...backendComments]);
@@ -40,6 +41,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
       setActiveComment(null);
     });
   };
+
   const deleteComment = (commentId) => {
     if (window.confirm("Are you sure you want to remove comment?")) {
       deleteCommentApi().then(() => {
@@ -51,8 +53,23 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     }
   };
 
-  const trollComment = () => {
-    console.log("Call Troll API")
+  const trollComment = (comment, strategy) => {
+  
+    // for(let i=0; i< backendComments.length;i++){
+    //   if(backendComments[i].commentId === comment.id){
+    //     console.log(backendComments[i].body);
+    //     break;
+    //   } 
+    // }
+    let query = "http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy
+    console.log(query)
+    //fetch("http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy)
+    fetch(query,{ 
+      mode: 'no-cors' // 'cors' by default
+  })
+    .then(data => console.log(data)).catch(err=>{
+      console.log(err)
+  })
   }
 
   useEffect(() => {

@@ -15,11 +15,11 @@ export default function Trobo(props){
             >
               <div class="selectWrapper">
               <select id="strategy" onChange={() => props.trollComment(props.comment,document.getElementById("strategy").value)}>
-              <option value="Trobo">Trobo</option>
-              <option value="Jokes">Jokes</option>
-              <option value="Memes">Memes</option>
-              <option value="Quotes">Quotes</option>
-              <option value="Toxic">Toxic</option>
+              <option value="TROBO">Trobo</option>
+              <option value="JOKE">Jokes</option>
+              <option value="MEME">Memes</option>
+              <option value="QUOTE">Quotes</option>
+              <option value="TOXIC">Toxic</option>
             </select>
             </div>
 

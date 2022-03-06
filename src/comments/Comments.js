@@ -67,14 +67,16 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     //fetch("http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy)
     fetch(query,{ 
       mode: 'no-cors' // 'cors' by default
-  })
-    .then(data => {
+  }).then((response) => {
+    return response.json()
+  }).then(data => {
       //  return (  <CommentForm
       //        submitLabel="Post"
       //        handleSubmit={(text) => addComment("TOXIC TOXIC TOXIC", comment.id)}
       //      />)
       //addComment("TOXIC TOXIC TOXIC", comment.id)
-      setTrollResponse(() => "TOXIC")
+      //setTrollResponse(() => data.prediction)
+      console.log(data.response)
   }).catch(err=>{
       console.log(err)
   })

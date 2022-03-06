@@ -6,18 +6,20 @@ export default function Trobo(props){
 
 
 
+        
+
+
         return (
             <div
               className="comment-action"
-              onClick={() => props.trollComment()}
             >
               <div class="selectWrapper">
-              <select >
-                <option>Trobo</option>
-              <option>Jokes</option>
-              <option>Memes</option>
-              <option>Quotes</option>
-              <option>Toxic</option>
+              <select id="strategy" onChange={() => props.trollComment(props.comment,document.getElementById("strategy").value)}>
+              <option value="Trobo">Trobo</option>
+              <option value="Jokes">Jokes</option>
+              <option value="Memes">Memes</option>
+              <option value="Quotes">Quotes</option>
+              <option value="Toxic">Toxic</option>
             </select>
             </div>
 

@@ -1,5 +1,5 @@
 import time, flask, pickle, json, sys
-import pandas as pd
+#import pandas as pd
 import numpy as np
 from googleapiclient import discovery
 
@@ -76,7 +76,7 @@ def before_request():
     flask.g.request_time = lambda: (time.time() - flask.g.request_start_time)
 
 # define predict function as an endpoint 
-@app.route('/predict', methods = ['GET', 'POST'])
+@app.route('/predict', methods = ['GET'])
 # serve predictions
 def predict():
    # dict served on api call

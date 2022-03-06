@@ -17,7 +17,8 @@ const Comment = ({
     activeComment &&
     activeComment.id === comment.id &&
     activeComment.type === "editing";
-  const isReplying =
+  
+    const isReplying =
     activeComment &&
     activeComment.id === comment.id &&
     activeComment.type === "replying";
@@ -89,7 +90,7 @@ const Comment = ({
           )}
          
           {canCounterTroll && (
-               <Trobo trollComment={trollComment}/>
+               <Trobo trollComment={trollComment} comment={comment}/>
           )}
 
           

@@ -10,6 +10,7 @@ const Comment = ({
   deleteComment,
   addComment,
   trollComment,
+  trollResponse,
   parentId = null,
   currentUserId,
 }) => {
@@ -90,12 +91,27 @@ const Comment = ({
           )}
          
           {canCounterTroll && (
+             <div
+             className="comment-action"
+             onClick={() =>
+               setActiveComment({ id: comment.id, type: "trolling" })
+             }
+           >
                <Trobo trollComment={trollComment} comment={comment}/>
+           </div>
           )}
 
           
         </div>
         
+        {trollResponse && (
+          <CommentForm
+            submitLabel="Reply"
+            handleSubmit={(text) => addComment(text, replyId)}
+            initialText={trollResponse}
+          />
+        )}
+
         
         {isReplying && (
           <CommentForm

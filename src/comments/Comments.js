@@ -14,6 +14,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   const rootComments = backendComments.filter(
     (backendComment) => backendComment.parentId === null
   );
+  const [trollResponse, setTrollResponse] = useState(null);
   const getReplies = (commentId) =>
     backendComments
       .filter((backendComment) => backendComment.parentId === commentId)
@@ -67,7 +68,14 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     fetch(query,{ 
       mode: 'no-cors' // 'cors' by default
   })
-    .then(data => console.log(data)).catch(err=>{
+    .then(data => {
+      //  return (  <CommentForm
+      //        submitLabel="Post"
+      //        handleSubmit={(text) => addComment("TOXIC TOXIC TOXIC", comment.id)}
+      //      />)
+      //addComment("TOXIC TOXIC TOXIC", comment.id)
+      setTrollResponse(() => "TOXIC")
+  }).catch(err=>{
       console.log(err)
   })
   }
@@ -79,7 +87,9 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   }, []);
 
   return (
+
     <div className="comments">
+      
       <CommentForm submitLabel="Post" handleSubmit={addComment} />
       <div className="comments-container">
         {rootComments.map((rootComment) => (
@@ -94,10 +104,12 @@ const Comments = ({ commentsUrl, currentUserId }) => {
             updateComment={updateComment}
             trollComment={trollComment}
             currentUserId={currentUserId}
+            trollResponse={trollResponse}
           />
         ))}
       </div>
     </div>
+
   );
 };
 

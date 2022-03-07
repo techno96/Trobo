@@ -28,6 +28,8 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     createCommentApi(text, parentId).then((comment) => {
       setBackendComments([comment, ...backendComments]);
       setActiveComment(null);
+      setTrollResponse("");
+      setImgResponse(false);
     });
   };
 

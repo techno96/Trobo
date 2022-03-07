@@ -16,12 +16,12 @@ const TrollResp = ({
     setText("");
   };
 
-  console.log("Rendering stuff ",text);
+  console.log("Rendering stuff ", initialText);
   
   return (
     <form onSubmit={onSubmit}>
       <div contentEditable="true">
-        <img src="/Troll12.jpeg"/>
+        <img src={text}/>
         </div>
       <button className="form--submit" disabled={isTextareaDisabled}>
         {submitLabel}

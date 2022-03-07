@@ -128,6 +128,7 @@ const Comment = ({
           handleSubmit={(text) => addComment(text, replyId)}
           hasCancelButton={true}
           handleCancel={deleteComment}
+          initialText={trollResponse}
         />
         )
         }

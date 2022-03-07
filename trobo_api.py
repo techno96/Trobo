@@ -2,10 +2,11 @@ import time, flask, pickle, json, sys
 import pandas as pd
 import numpy as np
 from googleapiclient import discovery
+from flask_cors import CORS, cross_origin
 
 # initialize flask object
 app = flask.Flask(__name__)
-
+cors = CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
 #initialize API key for perpspective API
 API_KEY = 'AIzaSyC4zu-biGJBTDft7HBOFzzqQrrTMa1-JIs'
 
@@ -41,7 +42,7 @@ def compute_predictions(test_term, strategy):
         elif strategy == "Toxic":
             return "NOT_TOXIC"
         else:
-            df = pd.read_csv('/Users/erress/Desktop/Personal/GRE/IDP/Shared/Univ_California_SanDiego/WI22/Anti Social Computing/TroBo/Trobo/Trobo_data.csv')
+            df = pd.read_csv('C:/Users/sharv/Desktop/Trobo/Trobo_data.csv')
             print('check2')
             print(strategy)
             indices = df.index[df['STRATEGY'] == strategy]
@@ -60,6 +61,7 @@ def before_request():
 
 # define predict function as an endpoint 
 @app.route('/predict', methods = ['GET'])
+@cross_origin(origin='*',headers=['access-control-allow-origin','Content-Type'])
 # serve predictions
 def predict():
    # dict served on api call
@@ -92,7 +94,11 @@ def predict():
     data['Total_time_taken'] = time_2
         
     # return response in json format 
-    return flask.jsonify(data)    
+
+    response = flask.jsonify(data)
+    #response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
 
 def main():
     # start the flask app (allow remote connections) 

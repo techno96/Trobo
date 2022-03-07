@@ -1,5 +1,7 @@
+import { useState } from "react/cjs/react.production.min";
 import CommentForm from "./CommentForm";
 import Trobo from "./Trobo";
+import TrollResp from "./TrollResp"
 
 const Comment = ({
   comment,
@@ -11,6 +13,7 @@ const Comment = ({
   addComment,
   trollComment,
   trollResponse,
+  imgResponse,
   parentId = null,
   currentUserId,
 }) => {
@@ -38,6 +41,9 @@ const Comment = ({
   const canEdit = currentUserId === comment.userId && !timePassed;
   const replyId = parentId ? parentId : comment.id;
   const createdAt = new Date(comment.createdAt).toLocaleDateString();
+  const canTroll = trollResponse.length > 0 ? true: false;
+  //const [commentTrollResp, setCommentTrollResp] = useState({trollResponse})
+
   return (
     <div key={comment.id} className="comment">
       <div className="comment-image-container">
@@ -104,14 +110,27 @@ const Comment = ({
           
         </div>
         
-        {trollResponse && (
+        {canTroll && !imgResponse && (
           <CommentForm
             submitLabel="Reply"
             handleSubmit={(text) => addComment(text, replyId)}
             initialText={trollResponse}
+            hasCancelButton={true}
+            handleCancel={deleteComment}
           />
         )}
 
+        {console.log("Image response is ", imgResponse)}
+
+        {canTroll && imgResponse && (
+          <TrollResp
+          submitLabel="Reply"
+          handleSubmit={(text) => addComment(text, replyId)}
+          hasCancelButton={true}
+          handleCancel={deleteComment}
+        />
+        )
+        }
         
         {isReplying && (
           <CommentForm
@@ -120,6 +139,7 @@ const Comment = ({
           />
         )}
 
+        
 
         {replies.length > 0 && (
           <div className="replies">
@@ -133,6 +153,8 @@ const Comment = ({
                 deleteComment={deleteComment}
                 addComment={addComment}
                 trollComment={trollComment}
+                trollResponse={trollResponse}
+                imgResponse={imgResponse}
                 parentId={comment.id}
                 replies={[]}
                 currentUserId={currentUserId}

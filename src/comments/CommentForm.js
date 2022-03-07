@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Component } from "react/cjs/react.production.min";
 
 const CommentForm = ({
   handleSubmit,
@@ -14,6 +15,9 @@ const CommentForm = ({
     handleSubmit(text);
     setText("");
   };
+
+  console.log("Rendering stuff ",text);
+  
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -30,7 +34,7 @@ const CommentForm = ({
       {hasCancelButton && (
         <button
           type="button"
-          className="comment-form-button comment-form-cancel-button"
+          className="form--submit comment-form-cancel-button"
           onClick={handleCancel}
         >
           Cancel

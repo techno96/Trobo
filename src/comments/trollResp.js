@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Component } from "react/cjs/react.production.min";
 
-const trollResp = ({
+const TrollResp = ({
   handleSubmit,
   submitLabel,
   hasCancelButton = false,
@@ -14,23 +15,21 @@ const trollResp = ({
     handleSubmit(text);
     setText("");
   };
+
+  console.log("Rendering stuff ",text);
+  
   return (
     <form onSubmit={onSubmit}>
-      <div>
-      <textarea
-        className="comment-form-textarea"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Please feed your comment here"
-      />
-      </div>
+      <div contentEditable="true">
+        <img src="/Troll12.jpeg"/>
+        </div>
       <button className="form--submit" disabled={isTextareaDisabled}>
         {submitLabel}
       </button>
       {hasCancelButton && (
         <button
           type="button"
-          className="comment-form-button comment-form-cancel-button"
+          className="form--submit comment-form-cancel-button"
           onClick={handleCancel}
         >
           Cancel
@@ -40,4 +39,4 @@ const trollResp = ({
   );
 };
 
-export default CommentForm;
+export default TrollResp;

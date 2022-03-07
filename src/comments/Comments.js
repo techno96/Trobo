@@ -14,7 +14,8 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   const rootComments = backendComments.filter(
     (backendComment) => backendComment.parentId === null
   );
-  const [trollResponse, setTrollResponse] = useState(null);
+  const [trollResponse, setTrollResponse] = useState("");
+  const [imgResponse, setImgResponse] = useState(false);
   const getReplies = (commentId) =>
     backendComments
       .filter((backendComment) => backendComment.parentId === commentId)
@@ -56,30 +57,28 @@ const Comments = ({ commentsUrl, currentUserId }) => {
 
   const trollComment = (comment, strategy) => {
   
-    // for(let i=0; i< backendComments.length;i++){
-    //   if(backendComments[i].commentId === comment.id){
-    //     console.log(backendComments[i].body);
-    //     break;
-    //   } 
-    // }
     let query = "http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy
     console.log(query)
-    //fetch("http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy)
-    fetch(query,{ 
-      mode: 'no-cors' // 'cors' by default
-  }).then((response) => {
-    return response.json()
-  }).then(data => {
-      //  return (  <CommentForm
-      //        submitLabel="Post"
-      //        handleSubmit={(text) => addComment("TOXIC TOXIC TOXIC", comment.id)}
-      //      />)
-      //addComment("TOXIC TOXIC TOXIC", comment.id)
-      //setTrollResponse(() => data.prediction)
-      console.log(data.response)
-  }).catch(err=>{
-      console.log(err)
+    if(strategy == "MEME"){
+      setImgResponse(true)
+    } else {
+      setImgResponse(false)
+    }
+    console.log(imgResponse)
+  fetch(query,{
+    'methods':['GET','POST']
   })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.prediction)
+    setTrollResponse(data.prediction)
+    setTrollResponse((prevState) => {
+      console.log("new state is", prevState);
+      return prevState;
+    })
+    //console.log("troll response updated is ",trollResponse) 
+  })
+  .catch(error => console.log(error))
   }
 
   useEffect(() => {
@@ -90,7 +89,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
 
   return (
 
-    <div className="comments">
+    <div className="comments" key={trollResponse}>
       
       <CommentForm submitLabel="Post" handleSubmit={addComment} />
       <div className="comments-container">
@@ -107,6 +106,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
             trollComment={trollComment}
             currentUserId={currentUserId}
             trollResponse={trollResponse}
+            imgResponse={imgResponse}
           />
         ))}
       </div>

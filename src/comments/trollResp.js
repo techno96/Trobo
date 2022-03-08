@@ -6,7 +6,7 @@ const TrollResp = ({
   submitLabel,
   hasCancelButton = false,
   handleCancel,
-  initialText = "",
+  initialText = ""
 }) => {
   const [text, setText] = useState(initialText);
   const isTextareaDisabled = text.length === 0;
@@ -16,11 +16,11 @@ const TrollResp = ({
     setText("");
   };
 
-  console.log("Rendering stuff ", initialText);
-  
-  return (
+  console.log("Rendering stuff ", text);
+
+   return (
     <form onSubmit={onSubmit}>
-      <div contentEditable="true">
+     <div contentEditable="true">
         <img src={text}/>
         </div>
       <button className="form--submit" disabled={isTextareaDisabled}>
@@ -34,9 +34,11 @@ const TrollResp = ({
         >
           Cancel
         </button>
-      )}
-    </form>
+      )} 
+    </form> 
+
   );
+      
 };
 
 export default TrollResp;

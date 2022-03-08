@@ -42,6 +42,7 @@ const Comment = ({
   const replyId = parentId ? parentId : comment.id;
   const createdAt = new Date(comment.createdAt).toLocaleDateString();
   const canTroll = trollResponse.length > 0 ? true: false;
+ 
   //const [commentTrollResp, setCommentTrollResp] = useState({trollResponse})
 
   return (
@@ -103,31 +104,35 @@ const Comment = ({
                setActiveComment({ id: comment.id, type: "trolling" })
              }
            >
-               <Trobo trollComment={trollComment} comment={comment}/>
+               <Trobo id={comment.id} trollComment={trollComment} comment={comment}/>
            </div>
           )}
 
           
         </div>
         
-        {canTroll && !imgResponse && (
+        {isTrolling && canTroll && !imgResponse && (
           <CommentForm
             submitLabel="Reply"
             handleSubmit={(text) => addComment(text, replyId)}
             initialText={trollResponse}
             hasCancelButton={true}
-            handleCancel={deleteComment}
+            handleCancel={() => {
+              setActiveComment(null);
+            }}
           />
         )}
 
         {console.log("Image response is ", imgResponse)}
 
-        {canTroll && imgResponse && (
+        {isTrolling && canTroll && imgResponse && (
           <TrollResp
           submitLabel="Reply"
           handleSubmit={(text) => addComment(text, replyId)}
           hasCancelButton={true}
-          handleCancel={deleteComment}
+          handleCancel={() => {
+            setActiveComment(null);
+          }}
           initialText={trollResponse}
         />
         )

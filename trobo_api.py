@@ -24,35 +24,38 @@ def compute_predictions(test_term, strategy):
     # configuring the request
     analyze_request = {
     'comment': { 'text': test_term },
-    'requestedAttributes': {'SEVERE_TOXICITY': {}}
+    'requestedAttributes': {'SEVERE_TOXICITY': {}},
+    'languages': ['en']
     }
-   
+    
+    # inititalize response score
+    sev_toxicity = 0
     try:
         # retrun the rersponse from the Perspective API
         response = client.comments().analyze(body=analyze_request).execute()
-
-        print('check')
+        #print('check')
 
         # categorize the response labels
         sev_toxicity = response['attributeScores']['SEVERE_TOXICITY']['spanScores'][0]['score']['value']
-
-
-        if strategy == "Toxic" and sev_toxicity > 0.5 :
-            return "TOXIC TOXIC TOXIC"
-        elif strategy == "Toxic":
-            return "NOT_TOXIC"
-        else:
+        #print(str(sev_toxicity))
+        
+        # return response according to the input strategy
+        threshold = 0.5
+        if strategy.casefold() == "Toxic".casefold() and sev_toxicity > threshold :
+            return sev_toxicity, "TOXIC TOXIC TOXIC!"
+            
+        elif strategy.casefold() != "Toxic".casefold() and sev_toxicity > threshold:
             df = pd.read_csv('C:/Users/sharv/Desktop/Trobo/Trobo_data.csv')
-            print('check2')
-            print(strategy)
             indices = df.index[df['STRATEGY'] == strategy]
-            print(indices)
-            return df.iloc[np.random.choice(indices)].DATA
+            return sev_toxicity, df.iloc[np.random.choice(indices)].DATA
 
+        else:
+            return sev_toxicity, "NOT TOXIC!"
 
     except Exception as exception:
         # return an invalid response
-        return "No Prediction from Perspective API"
+        print(exception)
+        return sev_toxicity, "No Prediction from Perspective API"
 
 @app.before_request
 def before_request():
@@ -81,7 +84,7 @@ def predict():
         strategy = params.get('strategy')
 
         # compute model predictions using Perpective API
-        pred = compute_predictions(test_term, strategy)
+        score, pred = compute_predictions(test_term, strategy)
 
         time_1 = flask.g.request_time()
         
@@ -89,6 +92,7 @@ def predict():
         # append predictions & labels to data
         data['prediction'] = pred
         data['success'] = True
+        data['score'] = score
 
     time_2 = flask.g.request_time()
     data['Total_time_taken'] = time_2

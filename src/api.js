@@ -3,6 +3,18 @@ export const getComments = async () => {
 };
 
 export const createComment = async (text, parentId = null) => {
+
+
+  if(text.includes("jpeg")){
+    return {
+      id: Math.random().toString(36).substr(2, 9),
+      body: <img src={text}></img>,
+      parentId,
+      userId: "1",
+      username: "User",
+      createdAt: new Date().toISOString(),
+    };
+  } else {
   return {
     id: Math.random().toString(36).substr(2, 9),
     body: text,
@@ -11,6 +23,7 @@ export const createComment = async (text, parentId = null) => {
     username: "User",
     createdAt: new Date().toISOString(),
   };
+}
 };
 
 export const updateComment = async (text) => {

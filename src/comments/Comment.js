@@ -145,8 +145,6 @@ const Comment = ({
           />
         )}
 
-        
-
         {replies.length > 0 && (
           <div className="replies">
             {replies.map((reply) => (

@@ -33,6 +33,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     });
   };
 
+
   const updateComment = (text, commentId) => {
     updateCommentApi(text).then(() => {
       const updatedBackendComments = backendComments.map((backendComment) => {
@@ -58,7 +59,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   };
 
   const trollComment = (comment, strategy) => {
-  
+    console.log("strategy is ",strategy)
     let query = "http://localhost:9000/predict?query=" + comment.body + "&strategy=" +strategy
     console.log(query)
     if(strategy == "MEME"){

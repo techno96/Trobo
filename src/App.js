@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 
 const App = () => {
   return (
-    <div>
+    <div >
       <NavBar/>
       <Comments
         commentsUrl="http://localhost:3004/comments"

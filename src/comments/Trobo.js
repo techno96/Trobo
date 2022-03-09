@@ -19,7 +19,7 @@ export default function Trobo(props){
               className="comment-action"
             >
               <div key={props.id} class="selectWrapper">
-              <select id="strategy" value={valueState} onChange={updateHandler}>
+              <select className="selectTrobo" id="strategy" value={valueState} onChange={updateHandler}>
               <option value="TROBO">Troll Option</option>
               <option value="JOKE">Jokes</option>
               <option value="MEME">Memes</option>
